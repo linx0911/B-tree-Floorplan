@@ -76,7 +76,7 @@ void input_parser(string block, string net, string pl, double wsr){
     double x,y;
     map<string, Terminal>::iterator ter_iter;
     map<string, Block>::iterator block_iter;
-    while(fin2>>str>>x>>y != NULL){
+    while(fin2>>str>>x>>y){
         Ter_map[str].set_site(x, y);
     }
     ifstream fin3(net.c_str(), ios::in);
@@ -117,7 +117,7 @@ void clear_record(Bs_tree_Node *cur){
     clear_record(cur->left);
     clear_record(cur->right);
     delete cur;
-    return; 
+    return;
 }
 
 Bs_tree_Node* record(Bs_tree_Node *cur){
@@ -273,9 +273,9 @@ double SA(Bs_tree &TREE, bool state, double W, double H, vector<Block*> tmp_vec,
     else cout<<endl<<"---------Set the HPWL---------"<<endl;
     //cout<<"W < "<<W<<" , H < "<<H<<"  Best cost = "<<best_cost<<endl;
     //cout<<"Initial W = "<<tmp_Max_W<<"  Initial H = "<<tmp_Max_H<<endl;
-    while(++count){ 
+    while(++count){
         time_s = clock();
-        if(state && tmp_Max_H < size_cool * H && tmp_Max_W < W * size_cool){ 
+        if(state && tmp_Max_H < size_cool * H && tmp_Max_W < W * size_cool){
             cooling(T, base);
             size_cool *= 0.95;
         }
@@ -297,11 +297,11 @@ double SA(Bs_tree &TREE, bool state, double W, double H, vector<Block*> tmp_vec,
         time_e = clock();
         total_time += (time_e-time_s)/(double)(CLOCKS_PER_SEC);
         update_time += (time_e-time_s)/(double)(CLOCKS_PER_SEC);
-        if(total_time >= timeout) break; 
+        if(total_time >= timeout) break;
         if(update_time >= 15){
             update_time = 0.0;
             heating(T, base, state);
-        } 
+        }
         if((state && tmp_Max_H <= H && tmp_Max_W <= W) || (!state && tmp_Max_WL < 0.7 * norm_wl)) break;
     }
     //SA
@@ -326,7 +326,7 @@ int main(int argc, char **argv){
         Block* tmp_block = &block_iter->second;
         tmp_block->p = 0.7 * ((tmp_block->w * tmp_block->h) / (W_fixed * H_fixed)) + 0.3 * ((tmp_block->w + tmp_block->h)/(W_fixed + H_fixed));
         tmp_vec.push_back(tmp_block);
-    } 
+    }
     sort(tmp_vec.rbegin(), tmp_vec.rend(), cmp);
     Bs_tree TREE;
     double total_time = 0.0, ratio, final_len;
